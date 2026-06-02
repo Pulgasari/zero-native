@@ -8,6 +8,7 @@ pub const Frontend = enum {
     react,
     svelte,
     vue,
+    preact,
 
     pub fn parse(value: []const u8) ?Frontend {
         if (std.mem.eql(u8, value, "next")) return .next;
@@ -15,27 +16,28 @@ pub const Frontend = enum {
         if (std.mem.eql(u8, value, "react")) return .react;
         if (std.mem.eql(u8, value, "svelte")) return .svelte;
         if (std.mem.eql(u8, value, "vue")) return .vue;
+        if (std.mem.eql(u8, value, "preact")) return .preact;
         return null;
     }
 
     pub fn distDir(self: Frontend) []const u8 {
         return switch (self) {
             .next => "frontend/out",
-            .vite, .react, .svelte, .vue => "frontend/dist",
+            .vite, .react, .svelte, .vue, .preact => "frontend/dist",
         };
     }
 
     pub fn devPort(self: Frontend) []const u8 {
         return switch (self) {
             .next => "3000",
-            .vite, .react, .svelte, .vue => "5173",
+            .vite, .react, .svelte, .vue, .preact => "5173",
         };
     }
 
     pub fn devUrl(self: Frontend) []const u8 {
         return switch (self) {
             .next => "http://127.0.0.1:3000/",
-            .vite, .react, .svelte, .vue => "http://127.0.0.1:5173/",
+            .vite, .react, .svelte, .vue. .preact => "http://127.0.0.1:5173/",
         };
     }
 };
